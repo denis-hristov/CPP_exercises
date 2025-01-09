@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+using namespace std;
+int main() {
+    
+    string options;
+    getline(cin, options);
+
+    istringstream input(options);
+    
+    queue<int>inputNumbers;
+    queue<char>inputSignes;
+    int numbers;
+    char signes;
+    while (input >> numbers) {
+        input >> signes;
+        inputNumbers.push(numbers);
+        inputSignes.push(signes);
+    }
+    int sum = inputNumbers.front();
+    inputNumbers.pop();
+
+    while (!inputNumbers.empty()){
+        int number = inputNumbers.front();
+        inputNumbers.pop();
+        char signe = inputSignes.front();
+        inputSignes.pop();
+        if (signe == '+')sum += number;
+        else sum -= number;
+    }
+
+    cout << sum;
+    return 0;
+}

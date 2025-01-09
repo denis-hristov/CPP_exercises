@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+#include <stack>
+using namespace std;
+
+void game(queue<string> &players, int loss, queue<string> &losers) {
+    while (players.size()>1) {
+        string name;
+        for (int i = 0; i < loss-1; i++) {
+            name = players.front();
+            players.pop();
+            players.push(name);
+        }
+        name = players.front();
+        players.pop();
+        losers.push(name);
+    }
+}
+
+int main() {
+    string names;
+    int loss;
+    getline(cin, names);
+    cin >> loss;
+
+    queue<string>players;
+    istringstream seporateNames(names);
+    string name;
+    while (seporateNames >> name)
+        players.push(name);
+
+    queue<string>losers;
+    game(players, loss, losers);
+
+    while (!losers.empty()) {
+        string nameL = losers.front();
+        losers.pop();
+        cout << "Removed " << nameL << endl;
+    }
+
+    name = players.front();
+    cout << "Last is " << name << endl;
+
+    return 0;
+}

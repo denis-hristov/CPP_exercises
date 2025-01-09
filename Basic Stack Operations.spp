@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+#include <stack>
+#include <climits>
+using namespace std;
+
+int main() {
+    string comand, listNumbers;;
+    getline(cin, comand);
+    getline(cin, listNumbers);
+
+    queue<int>comands;
+    istringstream seporateComands(comand);
+    int singleComand;
+    while (seporateComands >> singleComand)
+        comands.push(singleComand);
+
+    stack<int>numbers;
+    istringstream seporateNumbers(listNumbers);
+    int num;
+    while (seporateNumbers >> num)
+        numbers.push(num);
+
+    singleComand = comands.front();
+    comands.pop();
+    for (int i = 0; i < singleComand-1; i++) {
+        int a = numbers.top();
+        numbers.pop();
+        numbers.push(a);
+    }
+
+    bool empty = false;
+    singleComand = comands.front();
+    comands.pop();
+    for (int i = 0; i < singleComand; i++)
+        numbers.pop();
+
+    if (numbers.size() == 0)empty = true;
+
+    int min = INT_MAX;
+    bool answer = false;
+    singleComand = comands.front();
+    comands.pop();
+    while(!numbers.empty()) {
+        int a = numbers.top();
+
+        if (a < min)min = a;
+
+        if (a == singleComand) {
+            answer = true;
+            break;
+        }
+        else numbers.pop();
+    }
+
+    if (answer)cout << "true";
+    else if (empty) cout << 0;
+    else  cout << min;
+    return 0;
+}

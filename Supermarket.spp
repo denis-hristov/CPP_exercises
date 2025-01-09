@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+#include <stack>
+using namespace std;
+int main() {
+    queue<string>order;
+    queue<string>paid;
+
+    string customer;
+    while(true){
+        getline(cin, customer);
+
+        if (customer == "End")break;
+
+        if (customer == "Paid") {
+            while (!order.empty()) {
+                string person = order.front();
+                order.pop();
+                paid.push(person);
+            }
+            order = queue<string>();
+        }
+        else order.push(customer);
+    }
+
+    while (!paid.empty()) {
+        string person = paid.front();
+        paid.pop();
+        cout << person << endl;
+    }
+
+    int i = 0;
+    while (!order.empty()) {
+        order.pop();
+        i++;
+    }
+    cout << i<<" people remaining.\n";
+    return 0;
+}

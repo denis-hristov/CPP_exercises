@@ -1,0 +1,50 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <stack>
+using namespace std;
+int main() {
+    stack<char>data;
+    string options;
+    getline(cin, options);
+
+    istringstream input(options);
+    int numbers;
+    while (input >> numbers)
+        data.push(numbers);
+
+    while (true) {
+        getline(cin, options);
+
+        if (options == "end")break;
+
+        istringstream newItems(options);
+        string comand;
+        newItems >> comand;
+        int item1;
+        newItems >> item1;
+
+        if (comand == "add") {
+            int item2;
+            newItems >> item2;
+            data.push(item1);
+            data.push(item2);
+        }
+        else if (comand == "remove") {
+            if (item1 <= data.size()) {
+                while (item1) {
+                    data.pop();
+                    item1--;
+                }
+            }
+        }
+    }
+
+    int sum = 0;
+    while (!data.empty()) {
+        sum += data.top();
+        data.pop();
+    }
+    cout << sum;
+    return 0;
+}
