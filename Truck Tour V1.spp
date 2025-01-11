@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+#include <stack>
+#include <climits>
+using namespace std;
+
+void rotation(queue<int> &a, int &i) {
+    a.pop();
+    a.push(i);
+    i = a.front();
+}
+
+int main() {
+    int nPumps;
+    cin >> nPumps;
+    cin.ignore();
+
+    queue<int>dataCopy;
+    queue<int>petrol;
+    queue<int>distance;
+    for (int i = 0; i < nPumps; i++) {
+        string data;
+        getline(cin, data);
+        istringstream allData(data);
+        int item;
+        while (allData >> item)
+            dataCopy.push(item);
+    }
+    
+    while (!dataCopy.empty()) {
+        int item = dataCopy.front();
+        dataCopy.pop();
+        petrol.push(item);
+
+        item = dataCopy.front();
+        dataCopy.pop();
+        distance.push(item);
+    }
+
+    int petrolStancion = 0;
+    while (true) {
+        int amount = petrol.front();
+        int distanceSmal = distance.front();
+
+        while (amount < distanceSmal) {
+            if (nPumps < petrolStancion)
+                petrolStancion = 0;
+            else petrolStancion++;
+
+            rotation(petrol, amount);
+            rotation(distance, distanceSmal);
+        }
+
+        int petrolL = 0;
+        for (int i = 0; i < nPumps; i++) {
+            petrolL += petrol.front();
+            petrolL -= distance.front();
+
+            rotation(petrol, amount);
+            rotation(distance, distanceSmal);
+        }
+
+        if (petrolL >= 0)break;
+    }
+
+    cout << petrolStancion;
+    return 0;
+}

@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+#include <stack>
+#include <climits>
+using namespace std;
+
+int maxNumber(queue<int>line) {
+    int i, max = INT_MIN;
+    while (!line.empty()) {
+        i = line.front();
+        line.pop();
+        if (i > max)max = i;
+    }
+    return max;
+}
+
+int main() {
+    int food;
+    cin >> food;
+    cin.ignore();
+
+    string ordersLine;
+    getline(cin, ordersLine);
+
+    queue<int>orders;
+    istringstream comands(ordersLine);
+    int order;
+    while (comands >> order)
+        orders.push(order);
+
+    order = maxNumber(orders);
+    cout << order << endl;
+
+    while (!orders.empty()) {
+        order = orders.front();
+        
+
+        if (food - order >= 0) {
+            food -= order;
+            orders.pop();
+        }
+        else break;
+    }
+
+    if (orders.empty())
+        cout << "Orders complete" << endl;
+    else {
+        cout << "Orders left: ";
+        while (!orders.empty()) {
+            order = orders.front();
+            orders.pop();
+            cout << order;
+            if (!orders.empty())cout << ' ';
+        }
+    }
+
+    return 0;
+}

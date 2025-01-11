@@ -1,0 +1,84 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <queue>
+#include <stack>
+#include <climits>
+using namespace std;
+
+int maxNumber(stack<int>line) {
+    int i, max = INT_MIN;
+    while (!line.empty()) {
+        i = line.top();
+        line.pop();
+        if (i > max)max = i;
+    }
+    return max;
+}
+
+int minNumber(stack<int>line) {
+    int i, min = INT_MAX;
+    while (!line.empty()) {
+        i = line.top();
+        line.pop();
+        if (i < min)min = i;
+    }
+    return min;
+}
+
+int main() {
+    stack<int>line;
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    for (int i = 0; i < n; i++) {
+        int digit1, digit2;
+        string comand;
+        getline(cin, comand);
+
+        queue<int>usingComands;
+        istringstream comands(comand);
+        while (comands >> comand)
+            usingComands.push(stoi(comand));
+        
+        digit1 = usingComands.front();
+        usingComands.pop();
+
+        switch (digit1) {
+        case 1:
+            digit2 = usingComands.front();
+            usingComands.pop();
+            line.push(digit2);
+            break;
+
+        case 2:
+            if(!line.empty())
+                line.pop();
+            break;
+
+        case 3:
+            digit2 = maxNumber(line);
+            if (!line.empty())
+                cout << digit2 << endl;
+            break;
+
+        case 4:
+            digit2 = minNumber(line);
+            if (!line.empty())
+                cout << digit2 << endl;
+            break;
+
+        default: break;
+        }
+    }
+
+    while (!line.empty()) {
+        int i = line.top();
+        line.pop();
+        cout << i;
+        if (!line.empty())
+            cout << ", ";
+    }
+    return 0;
+}
